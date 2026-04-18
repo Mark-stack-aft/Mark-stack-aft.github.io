@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어버이날을 축하드립니다 💐</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e8406a;
+    --blush: #f4a5bc;
+    --gold: #d4a050;
+    --gold-light: #f5d78e;
+    --plum: #7c3f6e;
+    --lavender: #c4a0d8;
+    --cream: #fdf6f0;
+    --deep: #2a1525;
+    --glass: rgba(255,255,255,0.12);
+    --glass-border: rgba(255,255,255,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #1a0d1e;
+    color: #fff;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  #cursor {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-light), var(--rose));
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+    mix-blend-mode: screen;
+  }
+  #cursor-trail {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(212,160,80,0.5);
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: left 0.12s ease, top 0.12s ease;
+  }
+
+  /* ── CANVAS BG ── */
+  #bg-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,63,110,0.35) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(232,64,106,0.2) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 10%, rgba(212,160,80,0.15) 0%, transparent 60%);
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 1.1;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+    background: linear-gradient(135deg, #fff 0%, var(--gold-light) 40%, var(--blush) 80%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(212,160,80,0.4));
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-top: 1.5rem;
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.9s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 1.2s forwards;
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  }
+
+  .btn-primary {
+    padding: 0.9rem 2.4rem;
+    background: linear-gradient(135deg, var(--rose), var(--plum));
+    border: none; border-radius: 100px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: none;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 30px rgba(232,64,106,0.4);
+    letter-spacing: 0.05em;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 40px rgba(232,64,106,0.55); }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-outline {
+    padding: 0.9rem 2.4rem;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    cursor: none;
+    backdrop-filter: blur(12px);
+    transition: transform 0.2s, background 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .btn-outline:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 1s 1.8s forwards;
+    color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 0.15em;
+  }
+  .scroll-hint span { display: block; width: 1.5px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    animation: scrollPulse 1.8s infinite; }
+
+  /* ── MESSAGE SECTION ── */
+  #messages {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, transparent, rgba(124,63,110,0.08), transparent);
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4rem;
+    background: linear-gradient(135deg, #fff, var(--lavender));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(18px);
+    position: relative; overflow: hidden;
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s;
+    cursor: none;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--card-grad, linear-gradient(135deg, rgba(232,64,106,0.1), rgba(124,63,110,0.1)));
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+  .card:hover::before { opacity: 1; }
+  .card:nth-child(1) { --card-grad: linear-gradient(135deg, rgba(232,64,106,0.2), rgba(244,165,188,0.1)); }
+  .card:nth-child(2) { --card-grad: linear-gradient(135deg, rgba(212,160,80,0.2), rgba(245,215,142,0.1)); }
+  .card:nth-child(3) { --card-grad: linear-gradient(135deg, rgba(124,63,110,0.25), rgba(196,160,216,0.1)); }
+  .card:nth-child(4) { --card-grad: linear-gradient(135deg, rgba(232,64,106,0.15), rgba(212,160,80,0.1)); }
+
+  .card-icon { font-size: 2.8rem; margin-bottom: 1.2rem; display: block; }
+  .card-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.2rem; font-weight: 700;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #fff, var(--blush));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .card-text { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.9; }
+
+  /* ── INTERACTIVE ── */
+  #interactive {
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  #msg-display {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    font-weight: 700;
+    min-height: 3em;
+    display: flex; align-items: center; justify-content: center;
+    margin: 2rem auto 3rem;
+    max-width: 700px;
+    line-height: 1.5;
+    background: linear-gradient(135deg, var(--gold-light), var(--blush), var(--lavender));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    transition: opacity 0.4s;
+  }
+
+  .counter-display {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── GALLERY ── */
+  #gallery {
+    padding: 6rem 2rem;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(124,63,110,0.12), transparent);
+  }
+
+  .slideshow {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .slides-wrapper {
+    overflow: hidden;
+    border-radius: 28px;
+    aspect-ratio: 16/9;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--glass-border);
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: scale(1.03);
+    padding: 3rem;
+  }
+  .slide.active { opacity: 1; transform: scale(1); }
+
+  .slide-bg {
+    position: absolute; inset: 0;
+    border-radius: 28px;
+    transition: opacity 0.8s;
+  }
+
+  .slide-content { position: relative; z-index: 1; text-align: center; }
+  .slide-emoji { font-size: 5rem; margin-bottom: 1.5rem; display: block;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.3)); }
+  .slide-caption {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.2rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    line-height: 1.5;
+  }
+  .slide-sub {
+    font-size: 0.9rem; color: rgba(255,255,255,0.7);
+    margin-top: 0.8rem; font-weight: 300;
+  }
+
+  .slide-nav {
+    display: flex; justify-content: center; gap: 0.6rem;
+    margin-top: 1.8rem;
+  }
+  .slide-dot {
+    width: 8px; height: 8px; border-radius: 100px;
+    background: rgba(255,255,255,0.25);
+    cursor: none; transition: background 0.3s, width 0.3s;
+    border: none;
+  }
+  .slide-dot.active { background: var(--gold); width: 28px; }
+
+  .slide-arrows {
+    position: absolute; top: 50%; left: 0; right: 0;
+    transform: translateY(-50%);
+    display: flex; justify-content: space-between;
+    pointer-events: none;
+  }
+  .arrow-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+    color: #fff; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: none; pointer-events: all;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s, transform 0.2s;
+    transform: translateX(0);
+  }
+  .arrow-btn:first-child { transform: translateX(-60px); }
+  .arrow-btn:last-child { transform: translateX(60px); }
+  .arrow-btn:hover { background: rgba(212,160,80,0.3); }
+
+  @media (max-width: 768px) {
+    .arrow-btn:first-child { transform: translateX(-16px); }
+    .arrow-btn:last-child { transform: translateX(16px); }
+  }
+
+  /* ── FOOTER ── */
+  #footer {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(42,21,37,0.8));
+    position: relative;
+  }
+
+  .footer-heart {
+    font-size: 3.5rem;
+    display: block;
+    animation: heartbeat 1.4s ease-in-out infinite;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 20px rgba(232,64,106,0.7));
+    cursor: none;
+    user-select: none;
+  }
+
+  .footer-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--rose), var(--lavender));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 1rem;
+  }
+
+  .footer-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.45); font-weight: 300;
+    letter-spacing: 0.08em;
+  }
+
+  .footer-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+  }
+
+  /* hidden easter egg button */
+  #secret-btn {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: none;
+    transition: background 0.3s, transform 0.3s;
+    z-index: 100;
+  }
+  #secret-btn:hover {
+    background: rgba(212,160,80,0.5);
+    transform: scale(2);
+  }
+
+  /* ── PARTICLES (flying hearts/flowers) ── */
+  .floater {
+    position: fixed;
+    pointer-events: none;
+    z-index: 500;
+    font-size: 1.5rem;
+    animation: floatUp 3s ease-out forwards;
+    user-select: none;
+  }
+
+  /* ── SECRET MESSAGE OVERLAY ── */
+  #secret-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,5,15,0.92);
+    backdrop-filter: blur(20px);
+    z-index: 9000;
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+  #secret-overlay.show { display: flex; animation: fadeIn 0.5s; }
+  .secret-close {
+    position: absolute; top: 2rem; right: 2rem;
+    font-size: 2rem; color: rgba(255,255,255,0.4);
+    cursor: none; transition: color 0.2s;
+  }
+  .secret-close:hover { color: #fff; }
+  .secret-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--rose), var(--lavender));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.6;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 5rem; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(20,10,25,0.9);
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.85rem; color: var(--gold-light);
+    letter-spacing: 0.06em;
+    backdrop-filter: blur(12px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 8000;
+    white-space: nowrap;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.4; } 50% { opacity: 0.9; }
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    15% { transform: scale(1.18); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.1); }
+    60% { transform: scale(1); }
+  }
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(-260px) scale(1.4) rotate(20deg); }
+  }
+  @keyframes pulse {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  @keyframes explode {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    60% { transform: scale(1.2) rotate(360deg); opacity: 1; }
+    100% { transform: scale(0.8) rotate(720deg); opacity: 0; }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(.2,.8,.2,1), transform 0.8s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal:nth-child(2) { transition-delay: 0.1s; }
+  .reveal:nth-child(3) { transition-delay: 0.2s; }
+  .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .card { padding: 2rem 1.5rem; }
+    .arrow-btn { width: 38px; height: 38px; font-size: 1rem; }
+  }
+
+  /* ── KONAMI glow ── */
+  .konami-glow {
+    animation: konamiGlow 0.5s ease-out forwards;
+  }
+  @keyframes konamiGlow {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(3) saturate(2); }
+    100% { filter: brightness(1); }
+  }
+
+  /* progress bar */
+  #progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--gold), var(--lavender));
+    z-index: 1000; width: 0%; transition: width 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- SECRET OVERLAY -->
+<div id="secret-overlay">
+  <span class="secret-close" id="secret-close">✕</span>
+  <div style="font-size:4rem;margin-bottom:1.5rem">🌹</div>
+  <div class="secret-text" id="secret-text">
+    이 페이지를 찾아주셨군요.<br>
+    어버이날을 진심으로 축하드립니다!<br>
+    사랑합니다! 💝
+  </div>
+</div>
+
+<!-- HIDDEN SECRET BUTTON (easter egg 3) -->
+<div id="secret-btn" title=""></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <span class="hero-badge">🌸 May 8th · 어버이날</span>
+  <h1 class="hero-title">어버이날을<br>축하드립니다!</h1>
+  <p class="hero-sub">
+    아빠, 엄마 계셔주셔서 감사합니다!<br>
+    어버이날 축하드려요!
+  </p>
+  <div class="hero-cta">
+    <button class="btn-primary" id="shower-btn">💐 꽃 뿌리기</button>
+    <button class="btn-outline" onclick="document.getElementById('messages').scrollIntoView({behavior:'smooth'})">감사 메시지 보기</button>
+  </div>
+  <div class="scroll-hint">
+    SCROLL
+    <span></span>
+  </div>
+</section>
+
+<!-- ═══════════════ MESSAGES ═══════════════ -->
+<section id="messages">
+  <p class="section-label">마음을 담아</p>
+  <h2 class="section-title">감사합니다!</h2>
+
+  <div class="cards-grid">
+    <div class="card reveal">
+      <span class="card-icon">🌱</span>
+      <h3 class="card-title">낳아주셔서 감사합니다</h3>
+      <p class="card-text"></p>
+    </div>
+    <div class="card reveal">
+      <span class="card-icon">🤲</span>
+      <h3 class="card-title">키워주셔서 감사합니다</h3>
+      <p class="card-text"></p>
+    </div>
+    <div class="card reveal">
+      <span class="card-icon">🌙</span>
+      <h3 class="card-title">보살펴 주셔서 감사합니다</h3>
+      <p class="card-text"></p>
+    </div>
+    <div class="card reveal">
+      <span class="card-icon">💖</span>
+      <h3 class="card-title">사랑합니다!</h3>
+      <p class="card-text">어버이날 축하드려요!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ INTERACTIVE ═══════════════ -->
+<section id="interactive">
+  <p class="section-label">마음을 전해요</p>
+  <h2 class="section-title">오늘의 사랑 메시지</h2>
+
+  <div id="msg-display">부모님, 오늘도 건강하세요 💕</div>
+  <div class="counter-display" id="counter-text">버튼을 눌러 메시지를 바꿔보세요</div>
+
+  <button class="btn-primary" id="msg-btn">✨ 새 메시지 받기</button>
+</section>
+
+<!-- ═══════════════ GALLERY ═══════════════ -->
+<section id="gallery">
+  <p class="section-label">소중한 순간들</p>
+  <h2 class="section-title">함께한 기억</h2>
+
+  <div class="slideshow">
+    <div class="slides-wrapper" id="slides-wrapper">
+
+      <div class="slide active">
+        <div class="slide-bg" style="background:linear-gradient(135deg,#3d1a35,#7c3f6e,#c4668e)"></div>
+        <div class="slide-content">
+          <span class="slide-emoji">🌸</span>
+          <p class="slide-caption">벚꽃 구경</p>
+          <p class="slide-sub">떡볶이가 맛있었어요!</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-bg" style="background:linear-gradient(135deg,#1a2d3d,#2d5a7c,#4a8fa8)"></div>
+        <div class="slide-content">
+          <span class="slide-emoji">🍜</span>
+          <p class="slide-caption">라면 박람회</p>
+          <p class="slide-sub">너무 재미있었어요!</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-bg" style="background:linear-gradient(135deg,#2d1a10,#8b4513,#d4a050)"></div>
+        <div class="slide-content">
+          <span class="slide-emoji">🥪</span>
+          <p class="slide-caption">트레이더스</p>
+          <p class="slide-sub">힘들었는데 은근 재미있었어요!</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-bg" style="background:linear-gradient(135deg,#1a2b1a,#2d5c2d,#5a9e5a)"></div>
+        <div class="slide-content">
+          <span class="slide-emoji">🌿</span>
+          <p class="slide-caption">등산로 돌기</p>
+          <p class="slide-sub">그저 힘들었어요...ㅋㅋㅋ 그래도 보람은 있었죠...</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <div class="slide-bg" style="background:linear-gradient(135deg,#2a1540,#6a2d8a,#9a60c0)"></div>
+        <div class="slide-content">
+          <span class="slide-emoji">🍛</span>
+          <p class="slide-caption">저녁 먹기</p>
+          <p class="slide-sub">교회에서 카레 먹던 날</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slide-arrows">
+      <button class="arrow-btn" id="prev-btn">‹</button>
+      <button class="arrow-btn" id="next-btn">›</button>
+    </div>
+
+    <div class="slide-nav" id="slide-nav"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer id="footer">
+  <span class="footer-heart" id="footer-heart">❤️</span>
+  <h2 class="footer-title">사랑합니다</h2>
+  <div class="footer-divider"></div>
+  <p class="footer-sub"> 감사하고 사랑합니다</p>
+  <p style="margin-top:3rem;font-size:0.7rem;color:rgba(255,255,255,0.15);letter-spacing:0.2em">🌸 PARENTS' DAY · 어버이날 🌸</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   CONSOLE EASTER EGG (Easter Egg #1)
+═══════════════════════════════════════ */
+console.log('%c💝 어버이날 이스터에그를 발견하셨군요!', 'font-size:20px;color:#d4a050;font-weight:bold;');
+console.log('%c제 생일이기도 하죠🌸', 'font-size:14px;color:#f4a5bc;');
+console.log('%c🎊 비밀 코드: SARANGHAE 💕', 'font-size:12px;color:#c4a0d8;font-style:italic;');
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  setTimeout(() => {
+    trail.style.left = mx + 'px';
+    trail.style.top = my + 'px';
+  }, 80);
+});
+
+document.addEventListener('mousedown', () => {
+  cursor.style.width = '12px'; cursor.style.height = '12px';
+});
+document.addEventListener('mouseup', () => {
+  cursor.style.width = '18px'; cursor.style.height = '18px';
+});
+
+/* ═══════════════════════════════════════
+   BACKGROUND PARTICLES
+═══════════════════════════════════════ */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const PARTICLES = [];
+const COLORS = ['#e8406a','#f4a5bc','#d4a050','#f5d78e','#c4a0d8','#7c3f6e'];
+
+class Particle {
+  constructor() { this.reset(true); }
+  reset(init = false) {
+    this.x = Math.random() * canvas.width;
+    this.y = init ? Math.random() * canvas.height : canvas.height + 20;
+    this.size = Math.random() * 2.5 + 0.5;
+    this.speed = Math.random() * 0.4 + 0.15;
+    this.drift = (Math.random() - 0.5) * 0.4;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.alpha = Math.random() * 0.5 + 0.15;
+    this.twinkle = Math.random() * Math.PI * 2;
+  }
+  update() {
+    this.y -= this.speed;
+    this.x += this.drift;
+    this.twinkle += 0.025;
+    this.currentAlpha = this.alpha * (0.6 + 0.4 * Math.sin(this.twinkle));
+    if (this.y < -20) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.currentAlpha;
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = this.color;
+    ctx.shadowBlur = this.size * 3;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < 90; i++) PARTICLES.push(new Particle());
+
+function animateBg() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  PARTICLES.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateBg);
+}
+animateBg();
+
+/* ═══════════════════════════════════════
+   SCROLL EFFECTS
+═══════════════════════════════════════ */
+const progressBar = document.getElementById('progress');
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════════
+   FLOATER SPAWN
+═══════════════════════════════════════ */
+const floatSymbols = ['❤️','🌸','💖','🌹','💕','✨','🌺','💗','🌷','💐','⭐','🌟'];
+
+function spawnFloater(x, y, count = 1) {
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'floater';
+    el.textContent = floatSymbols[Math.floor(Math.random() * floatSymbols.length)];
+    el.style.left = (x + (Math.random() - 0.5) * 80) + 'px';
+    el.style.top = y + 'px';
+    el.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+    el.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+/* ═══════════════════════════════════════
+   SHOWER BUTTON
+═══════════════════════════════════════ */
+document.getElementById('shower-btn').addEventListener('click', e => {
+  const rect = e.target.getBoundingClientRect();
+  for (let i = 0; i < 24; i++) {
+    setTimeout(() => {
+      spawnFloater(
+        rect.left + Math.random() * rect.width,
+        rect.top,
+        1
+      );
+    }, i * 60);
+  }
+  showToast('꽃잎이 흩날립니다 🌸');
+});
+
+/* ═══════════════════════════════════════
+   INTERACTIVE MESSAGES
+═══════════════════════════════════════ */
+const messages = [
+  '부모님, 오늘도 건강하세요 💕',
+  '세상에서 가장 소중한 분들입니다 🌸',
+  '낳아주시고 키워주셔서 감사합니다 🙏',
+  '항상 행복하시길... 😊',
+  '언제나 든든한 버팀목이 되어주셔서 고맙습니다 💪',
+  '부모님의 사랑, 평생 간직하겠습니다 💖',
+  '오래오래 건강하게 곁에 계셔 주세요 🌹',
+  '이 세상 최고의 부모님께 감사드립니다 ⭐',
+];
+
+let msgIdx = 0;
+const msgDisplay = document.getElementById('msg-display');
+const counterText = document.getElementById('counter-text');
+
+document.getElementById('msg-btn').addEventListener('click', e => {
+  msgDisplay.style.opacity = '0';
+  setTimeout(() => {
+    msgIdx = (msgIdx + 1) % messages.length;
+    msgDisplay.textContent = messages[msgIdx];
+    msgDisplay.style.opacity = '1';
+    counterText.textContent = `${msgIdx + 1} / ${messages.length}`;
+  }, 400);
+
+  const rect = e.target.getBoundingClientRect();
+  spawnFloater(rect.left + rect.width / 2, rect.top, 6);
+});
+
+/* ═══════════════════════════════════════
+   SLIDESHOW
+═══════════════════════════════════════ */
+const slides = document.querySelectorAll('.slide');
+const navContainer = document.getElementById('slide-nav');
+let currentSlide = 0;
+let slideInterval;
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  navContainer.appendChild(dot);
+});
+
+function goTo(n) {
+  slides[currentSlide].classList.remove('active');
+  navContainer.children[currentSlide].classList.remove('active');
+  currentSlide = (n + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  navContainer.children[currentSlide].classList.add('active');
+}
+
+document.getElementById('prev-btn').addEventListener('click', () => { goTo(currentSlide - 1); resetInterval(); });
+document.getElementById('next-btn').addEventListener('click', () => { goTo(currentSlide + 1); resetInterval(); });
+
+function resetInterval() {
+  clearInterval(slideInterval);
+  slideInterval = setInterval(() => goTo(currentSlide + 1), 4500);
+}
+resetInterval();
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+/* ═══════════════════════════════════════
+   EASTER EGG #2 — Footer heart multi-click
+═══════════════════════════════════════ */
+let heartClicks = 0;
+let heartTimer;
+const footerHeart = document.getElementById('footer-heart');
+
+footerHeart.addEventListener('click', e => {
+  heartClicks++;
+  spawnFloater(e.clientX, e.clientY, 3);
+  clearTimeout(heartTimer);
+
+  if (heartClicks >= 7) {
+    heartClicks = 0;
+    // Big explosion
+    for (let i = 0; i < 40; i++) {
+      setTimeout(() => {
+        spawnFloater(
+          e.clientX + (Math.random() - 0.5) * 300,
+          e.clientY + (Math.random() - 0.5) * 100,
+          1
+        );
+      }, i * 40);
+    }
+    footerHeart.classList.add('konami-glow');
+    setTimeout(() => footerHeart.classList.remove('konami-glow'), 600);
+    showToast('💥 사랑 폭발!');
+    document.getElementById('secret-overlay').classList.add('show');
+    document.getElementById('secret-text').innerHTML =
+      '하트를 7번 누르셨군요! 💝<br>지금 당장 부모님께...<br>"사랑해요"';
+  } else if (heartClicks === 3) {
+    showToast('❤️ 계속 눌러보세요... 뭔가 일어날 것 같아요!');
+  }
+
+  heartTimer = setTimeout(() => { heartClicks = 0; }, 2000);
+});
+
+/* ═══════════════════════════════════════
+   EASTER EGG #3 — Secret button
+═══════════════════════════════════════ */
+document.getElementById('secret-btn').addEventListener('click', e => {
+  document.getElementById('secret-overlay').classList.add('show');
+  document.getElementById('secret-text').innerHTML =
+    '비밀 버튼을 찾으셨네요! 🎊<br><br>이 페이지를 만든 마음 = <br>아빠 엄마를 향한 마음';
+  for (let i = 0; i < 50; i++) {
+    setTimeout(() => {
+      spawnFloater(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight,
+        1
+      );
+    }, i * 50);
+  }
+});
+
+document.getElementById('secret-close').addEventListener('click', () => {
+  document.getElementById('secret-overlay').classList.remove('show');
+});
+
+/* ═══════════════════════════════════════
+   EASTER EGG #4 — Konami Code / keyword
+   Type "사랑해" or press ↑↑↓↓←→←→BA
+═══════════════════════════════════════ */
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+let typedBuffer = '';
+
+document.addEventListener('keydown', e => {
+  // Konami code
+  if (e.key === konami[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konami.length) {
+      konamiIdx = 0;
+      triggerKonami();
+    }
+  } else {
+    konamiIdx = 0;
+  }
+
+  // Text easter egg — type "love"
+  typedBuffer += e.key.toLowerCase();
+  if (typedBuffer.length > 10) typedBuffer = typedBuffer.slice(-10);
+  if (typedBuffer.includes('love') || typedBuffer.includes('사랑')) {
+    typedBuffer = '';
+    showToast('💕 사랑을 입력하셨군요! ');
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => spawnFloater(Math.random() * window.innerWidth, window.innerHeight * 0.8, 1), i * 80);
+    }
+  }
+});
+
+function triggerKonami() {
+  document.body.style.transition = 'filter 0.3s';
+  document.body.style.filter = 'hue-rotate(30deg) saturate(1.5)';
+  setTimeout(() => document.body.style.filter = '', 1500);
+  showToast('🎮 코나미 코드 성공!');
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => spawnFloater(Math.random() * window.innerWidth, Math.random() * window.innerHeight * 0.5 + window.innerHeight * 0.3, 1), i * 40);
+  }
+  console.log('%c🎮 코나미 코드를 입력하셨군요!', 'font-size:16px;color:#f5d78e;');
+}
+
+/* ═══════════════════════════════════════
+   EASTER EGG #5 — Title click 5 times
+═══════════════════════════════════════ */
+let titleClicks = 0;
+let titleTimer;
+document.querySelector('.hero-title').addEventListener('click', e => {
+  titleClicks++;
+  clearTimeout(titleTimer);
+  spawnFloater(e.clientX, e.clientY, 4);
+  if (titleClicks >= 5) {
+    titleClicks = 0;
+    document.querySelector('.hero-title').classList.add('konami-glow');
+    setTimeout(() => document.querySelector('.hero-title').classList.remove('konami-glow'), 600);
+    showToast('🌟 제목을 5번 클릭!');
+  }
+  titleTimer = setTimeout(() => titleClicks = 0, 1500);
+});
+
+/* ═══════════════════════════════════════
+   MOUSE TRAIL PARTICLES (subtle)
+═══════════════════════════════════════ */
+let lastTrailTime = 0;
+document.addEventListener('mousemove', e => {
+  const now = Date.now();
+  if (now - lastTrailTime > 120) {
+    lastTrailTime = now;
+    if (Math.random() > 0.6) spawnFloater(e.clientX, e.clientY, 1);
+  }
+});
+
+/* ═══════════════════════════════════════
+   VISIBILITY OBSERVER FOR SECTIONS
+═══════════════════════════════════════ */
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('section').forEach(s => sectionObserver.observe(s));
+</script>
+</body>
+</html>
